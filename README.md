@@ -166,12 +166,9 @@ us-west1/us-central1のバケット・リージョンのみ）。デプロイ後
 バケットへの読み書き権限は、各関数のデフォルトのランタイムサービスアカウントに対して
 Cloud Consoleの権限設定から付与した。
 
-`.env`にバケット名を設定する（ローカルはADC = `gcloud auth application-default login`
-でこのバケットに書き込める権限があればよい）。
-
-```
-GCS_BUCKET_NAME=<上で作ったバケット名>
-```
+`.env`に`GCS_BUCKET_NAME`の記述があるが、実際はCloud Run functionの環境変数に直接設定した。
+`.env`ファイルで管理したい場合は`.env.example`を
+コピーして使う形でも動く（`config.py`が`python-dotenv`経由で読み込む）。
 
 `--allow-unauthenticated`にしているためURLを知っていれば誰でも叩ける。個人利用の
 簡易構成として割り切っているが、気になる場合はID トークン認証を追加する。
