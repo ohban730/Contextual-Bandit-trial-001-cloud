@@ -1,0 +1,9 @@
+# torchはCUDA(cu130)ビルドを使う場合、PyPIではなく専用インデックスが必要
+# 例: pip install torch==2.11.0+cu130 --index-url https://download.pytorch.org/whl/cu130
+google-cloud-storage==2.*
+numpy==2.2.6
+pandas==2.3.3
+python-dotenv==1.2.2
+requests==2.34.2
+sentence-transformers==5.7.0
+torch==2.11.0+cu130
