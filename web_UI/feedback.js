@@ -21,11 +21,11 @@ const Feedback = (function () {
             let channel_name = json.channel_name;
             let label = json.label;
             const p = document.querySelector('#feedback');
-            p.innerHTML = channel_name + 'に対して' + label + 'のフィードバックを送信しました';
+            p.textContent = channel_name + 'に対して' + label + 'のフィードバックを送信しました';
             console.log(channel_name);
         } else {
             const p = document.querySelector('#feedback');
-            p.innerHTML = 'フィードバックの送信に失敗しました';
+            p.textContent = 'フィードバックの送信に失敗しました';
             console.log('Error: ' + resp.status);
             console.log('取得に失敗しました');
         }

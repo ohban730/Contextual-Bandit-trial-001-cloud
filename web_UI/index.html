@@ -10,7 +10,10 @@
     <script src="feedback.js" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            document.querySelector('#submit').addEventListener('click', Suggest.main);
+            document.querySelector('#submit').addEventListener('click', () => {
+                const selectedCategory = document.querySelector('#genre-select').value;
+                Suggest.main(selectedCategory);
+            });
             document.querySelector('#good-btn').addEventListener('click', () => Feedback.main('good'));
             document.querySelector('#bad-btn').addEventListener('click', () => Feedback.main('bad'));
         });
@@ -20,10 +23,14 @@
 <body>
     <h1>Video Recommendation</h1>
     <div class="output-container">
-        <label for="input-text">ジャンル選択（今後対応）:</label>
-        <input type="text" id="input-text" name="input-text" placeholder="ジャンル指定">
+        <label for="input-text">カテゴリ選択（今後対応）:</label>
+        <select id="genre-select">
+            <option value="">   未選択</option>
+            <option value="Music">Music</option>
+            <option value="Gaming">Gaming</option>
+        </select>
         <button type="button" id="submit">おすすめ動画リクエスト</button>
-        <p id="genre">ジャンル（今後対応）</p>
+        <p id="genre">カテゴリ</p>
         <p id="recommendations">おすすめ動画のタイトル</p>
     </div>
     <button type="button" id="good-btn" class="feedback-button">GOOD!</button>

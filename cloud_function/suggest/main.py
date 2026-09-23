@@ -91,6 +91,8 @@ def suggest(request):
             "suggestion_id": suggestion_id,
             "channel_name": chosen["channel_name"],
             "last_video_title": chosen.get("last_video_title"),
+            "watch_count": chosen["watch_count"],
+            "dominant_category_name": chosen.get("dominant_category_name"),
             "context": dict(zip(FEATURE_NAMES, chosen_context.tolist())),
             "sampled_score": float(sampled_scores[best_idx]),
             "reference_top5": [
