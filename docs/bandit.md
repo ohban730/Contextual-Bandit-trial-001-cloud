@@ -89,9 +89,12 @@
 
 ### `save_pending` / `load_pending` / `clear_pending`
 「今どのチャンネルを提案中で、まだ評価待ちか」を一時的に
-覚えておくための仕組みです。あなたが`<feedbackのURL>?label=good`のように
-評価用のURLを叩いたとき、「さっき提案したのはどのチャンネルだったか」
-を思い出すために使われます。
+覚えておくための仕組みです。提案ごとに`pending/<suggestion_id>.json`を作り、
+suggestの応答で`suggestion_id`を返します。あなたが
+`<feedbackのURL>?label=good&suggestion_id=...`のように評価用のURLを叩いたとき、
+「そのIDで提案したのはどのチャンネルだったか」を思い出すために使われます。
+（1ファイルを使い回すと、別の提案で上書きされたり古い内容が読まれたりして、
+評価が別のチャンネルに付いてしまうため、IDで紐づけています。）
 
 ### `log_feedback` / `already_judged_channels`
 評価した結果を、`suggestion_log.json`という「評価ずみノート」に

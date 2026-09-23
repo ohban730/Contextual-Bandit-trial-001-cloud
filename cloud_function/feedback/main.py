@@ -41,7 +41,8 @@ def feedback(request):
         return ("", 204, headers)
     """直前にsuggestしたpendingへの評価(good/bad)を受け取り、banditを更新する。
 
-    パラメータ: label=good または label=bad（クエリ文字列でもJSONボディでも可）
+    パラメータ: label=good または label=bad、suggestion_id=suggestが返したID
+    （クエリ文字列でもJSONボディでも可）
     """
     label = _param(request, "label")
     if label not in ("good", "bad"):
@@ -49,14 +50,15 @@ def feedback(request):
 
     store = GCSJsonStore(BUCKET_NAME)
     bandit = LinearThompsonSamplingBandit(store)
-    pending = bandit.load_pending()
+    suggestion_id = _param(request, "suggestion_id")
+    pending = bandit.load_pending(suggestion_id)
     if pending is None:
-        return _cors_json({"error": "評価対象の提案がありません。先にsuggestを呼んでください。"}, 404)
+        return _cors_json({"error": "評価対象の提案がありません（評価済みか、suggestion_idが不正です）。"}, 404)
 
     reward = 1.0 if label == "good" else 0.0
     bandit.update(np.array(pending["context"]), reward)
     bandit.log_feedback(pending["channel_name"], label)
-    bandit.clear_pending()
+    bandit.clear_pending(suggestion_id)
 
     theta = bandit.theta_mean
     return _cors_json(

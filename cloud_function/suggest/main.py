@@ -82,12 +82,13 @@ def suggest(request):
     chosen = remaining[best_idx]
     chosen_context = context_matrix[best_idx]
 
-    bandit.save_pending(
+    suggestion_id = bandit.save_pending(
         chosen["channel_name"], chosen_context, extra={"last_video_title": chosen.get("last_video_title")}
     )
 
     return _cors_json(
         {
+            "suggestion_id": suggestion_id,
             "channel_name": chosen["channel_name"],
             "last_video_title": chosen.get("last_video_title"),
             "context": dict(zip(FEATURE_NAMES, chosen_context.tolist())),

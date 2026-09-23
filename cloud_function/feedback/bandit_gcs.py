@@ -8,6 +8,8 @@ suggest用・feedback用の各インスタンスがそれぞれ自己完結し�
 置いている。直したときは両方に反映すること。
 """
 import json
+import re
+import uuid
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
@@ -21,7 +23,10 @@ FEATURE_NAMES = ["recency_score", "frequency_score", "genre_score", "semantic_sc
 GOOD_COOLDOWN_DAYS = 30
 
 BANDIT_STATE_BLOB = "bandit_state.json"
-PENDING_SUGGESTION_BLOB = "pending_suggestion.json"
+# 提案ごとに pending/<suggestion_id>.json を作る。1ファイルを使い回すと、別の提案で
+# 上書きされたり古い内容が読まれたりして、評価が別のチャンネルに付いてしまうため。
+PENDING_SUGGESTION_PREFIX = "pending/"
+_SUGGESTION_ID_PATTERN = re.compile(r"^[0-9a-f]{32}$")
 SUGGESTION_LOG_BLOB = "suggestion_log.json"
 
 
@@ -39,6 +44,8 @@ class GCSJsonStore:
 
     def write(self, blob_name: str, data) -> None:
         blob = self._bucket.blob(blob_name)
+        # 公開読み取り可のオブジェクトは既定でキャッシュされ、古い内容が返ることがあるため無効化する
+        blob.cache_control = "no-store"
         blob.upload_from_string(json.dumps(data, ensure_ascii=False), content_type="application/json")
 
     def delete(self, blob_name: str) -> None:
@@ -99,15 +106,24 @@ class LinearThompsonSamplingBandit:
         self.b += reward * x
         self._save_state()
 
-    def save_pending(self, channel_name: str, context: np.ndarray, extra: Optional[dict] = None) -> None:
+    def save_pending(self, channel_name: str, context: np.ndarray, extra: Optional[dict] = None) -> str:
+        """提案を評価待ちとして保存し、feedbackで指定するためのsuggestion_idを返す。"""
+        suggestion_id = uuid.uuid4().hex
         payload = {"channel_name": channel_name, "context": context.tolist(), **(extra or {})}
-        self.store.write(PENDING_SUGGESTION_BLOB, payload)
+        self.store.write(self._pending_blob(suggestion_id), payload)
+        return suggestion_id
 
-    def load_pending(self) -> Optional[dict]:
-        return self.store.read(PENDING_SUGGESTION_BLOB)
+    def load_pending(self, suggestion_id: str) -> Optional[dict]:
+        if not _SUGGESTION_ID_PATTERN.match(suggestion_id or ""):
+            return None
+        return self.store.read(self._pending_blob(suggestion_id))
 
-    def clear_pending(self) -> None:
-        self.store.delete(PENDING_SUGGESTION_BLOB)
+    def clear_pending(self, suggestion_id: str) -> None:
+        self.store.delete(self._pending_blob(suggestion_id))
+
+    @staticmethod
+    def _pending_blob(suggestion_id: str) -> str:
+        return f"{PENDING_SUGGESTION_PREFIX}{suggestion_id}.json"
 
     def log_feedback(self, channel_name: str, label: str, judged_at: Optional[datetime] = None) -> None:
         """評価済みのチャンネルを記録する（同じチャンネルを繰り返し提案しないようにするため）。"""

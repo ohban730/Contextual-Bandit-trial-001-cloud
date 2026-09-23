@@ -2,7 +2,12 @@ const Feedback = (function () {
     const url = CONFIG.FEEDBACK_URL;
 
     async function main(label) {
-        const resp = await fetch(url + `?label=${label}`,
+        const suggestionId = Suggest.takeSuggestionId();
+        if (!suggestionId) {
+            document.querySelector('#feedback').innerHTML = '先におすすめ動画をリクエストしてください';
+            return;
+        }
+        const resp = await fetch(url + `?label=${label}&suggestion_id=${suggestionId}`,
             {
                 method: 'POST',
                 headers: {

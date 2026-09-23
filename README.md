@@ -116,7 +116,7 @@ semantic_score  … タイトル埋め込みの意味的な近さ
 `torch`/`sentence-transformers`を使う埋め込み計算・YouTube Data APIでのメタデータ補完は
 GPUとAPIキーが要るためローカルのまま実行する。スコアリングと文脈付きバンディットは
 `suggest`・`feedback`の2つのCloud Run functionsとして別々にデプロイする。状態
-(`bandit_state.json`/`pending_suggestion.json`/`suggestion_log.json`)はCloud Storageに保存する。
+(`bandit_state.json`/`pending/<suggestion_id>.json`/`suggestion_log.json`)はCloud Storageに保存する。
 ローカルとクラウドの間はHTTPで直接やり取りせず、Cloud Storage上の`candidates.json`を介した
 受け渡しだけで完結する。
 
