@@ -145,6 +145,12 @@ button {
     color: var(--color-surface);
 }
 
+#send-button:disabled,
+.chip:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 @media (max-width: 600px) {
 
     /* 画面の幅が 600px 以下のときだけ適用される */

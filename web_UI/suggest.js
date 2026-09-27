@@ -8,7 +8,15 @@ async function fetchSuggestion(category) {
     const resp = await fetch(requestUrl);
 
     if (!resp.ok) {
-        throw new Error(`提案の取得に失敗しました（status: ${resp.status}）`);
+        const error = new Error(`提案の取得に失敗しました（status: ${resp.status}）`);
+
+        try {
+            const body = await resp.json();
+            error.userMessage = body.error;
+        } catch {
+            // JSON でなければ、何もしない（userMessage なし → main.js で固定の文章を出す）
+        }
+        throw error;
     }
 
     const json = await resp.json();

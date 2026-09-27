@@ -64,10 +64,15 @@ sendButton.addEventListener('click', async () => {
     document.body.classList.add('chatting');
     addMessage(text, 'user');
 
-    if (mode === 'category') {
-        await requestSuggestion(value);
-    } else {
-        await requestFeedback(value);
+    setBusy(true);
+    try {
+        if (mode === 'category') {
+            await requestSuggestion(value);
+        } else {
+            await requestFeedback(value);
+        }
+    } finally {
+        setBusy(false);
     }
 });
 
@@ -80,7 +85,7 @@ async function requestSuggestion(category) {
         renderChips('feedback');
     } catch (error) {
         console.error(error);
-        addMessage('提案を取得できませんでした。もう一度お試しください。', 'bot');
+        addMessage(error.userMessage ?? '提案を取得できませんでした。もう一度お試しください。', 'bot');
     }
 }
 
@@ -93,6 +98,14 @@ async function requestFeedback(label) {
         renderChips('category');
     } catch (error) {
         console.error(error);
-        addMessage('評価の送信に失敗しました。もう一度お試しください。', 'bot');
+        addMessage(error.userMessage ?? '評価の送信に失敗しました。もう一度お試しください。', 'bot');
     }
+}
+
+// --- 待機中の切り替え ---
+function setBusy(isBusy) {
+    sendButton.disabled = isBusy;
+    chipList.querySelectorAll('.chip').forEach((chip) => {
+        chip.disabled = isBusy;
+    });
 }
