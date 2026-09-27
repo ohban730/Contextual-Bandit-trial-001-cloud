@@ -125,6 +125,12 @@ button {
     padding: 0;
     font-size: 32px;
     font-weight: 500;
+    transition: transform 0.1s ease-out, background-color 0.15s ease-out;
+}
+
+.chip:active:not(:disabled),
+#send-button:active:not(:disabled) {
+    transform: scale(0.95);
 }
 
 .chip.selected {
@@ -143,6 +149,7 @@ button {
     align-items: center;
     background-color: var(--color-ink);
     color: var(--color-surface);
+    transition: transform 0.1s ease-out, background-color 0.15s ease-out;
 }
 
 #send-button:disabled,
