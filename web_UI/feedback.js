@@ -1,35 +1,20 @@
-const Feedback = (function () {
-    const url = CONFIG.FEEDBACK_URL;
+const feedbackUrl = CONFIG.FEEDBACK_URL;
 
-    async function main(label) {
-        const suggestionId = Suggest.takeSuggestionId();
-        if (!suggestionId) {
-            document.querySelector('#feedback').innerHTML = '先におすすめ動画をリクエストしてください';
-            return;
-        }
-        const resp = await fetch(url + `?label=${label}&suggestion_id=${suggestionId}`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: null
-            }
-        );
-        if (resp.status == 200) {
-            const json = await resp.json();
-            let channel_name = json.channel_name;
-            let label = json.label;
-            const p = document.querySelector('#feedback');
-            p.textContent = channel_name + 'に対して' + label + 'のフィードバックを送信しました';
-            console.log(channel_name);
-        } else {
-            const p = document.querySelector('#feedback');
-            p.textContent = 'フィードバックの送信に失敗しました';
-            console.log('Error: ' + resp.status);
-            console.log('取得に失敗しました');
-        }
+async function sendFeedback(label, suggestionId) {
+
+    if (!suggestionId) {
+        throw new Error('評価する提案がありません');
     }
+    
+    const requestUrl = new URL(feedbackUrl);
+    requestUrl.searchParams.set('label', label);
+    requestUrl.searchParams.set('suggestion_id', suggestionId);
 
-    return { main };
-})();
+    const resp = await fetch(requestUrl, { method: 'POST' });
+
+    if (!resp.ok) {
+        throw new Error(`評価の送信に失敗しました（status: ${resp.status}）`);
+    }
+    const json = await resp.json();
+    return json;
+}
