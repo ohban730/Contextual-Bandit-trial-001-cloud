@@ -151,17 +151,66 @@ button {
     cursor: not-allowed;
 }
 
+/* 画面の幅が 600px 以下のときだけ適用される */
 @media (max-width: 600px) {
-
-    /* 画面の幅が 600px 以下のときだけ適用される */
     .logo {
         font-size: 32px;
+        top: 5px;
+        left: 12px;
+    }
+
+    body.chatting {
+        padding: 60px 0 20px;
+        gap: 12px;
+    }
+
+    #composer {
+        padding: 22px 10px;
+        border-radius: 25px;
+        gap: 8px;
+    }
+
+    #composer::before {
+        inset: -185px -112px;
+    }
+
+    #chip-list {
+        gap: 4px;
     }
 
     .chip {
         font-size: 16px;
-        height: 40px;
-        width: auto;
-        padding: 0 16px;
+        height: 32px;
+        width: 71px;
+        padding: 0;
     }
+
+    #send-button {
+        width: 32px;
+        height: 32px;
+    }
+
+    #messages {
+        padding: 0 10px;
+        gap: 12px;
+    }
+
+    .message {
+        font-size: 16px;
+    }
+
+    .message.user {
+        padding: 8px 24px;
+        border-radius: 25px;
+    }
+
+    .message.bot + .message.user {
+        margin-top: 20px;
+    }
+
+    #send-button svg {
+        width: 15px;
+        height: 19px;
+    }
+
 }
