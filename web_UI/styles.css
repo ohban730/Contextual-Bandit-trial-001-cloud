@@ -5,6 +5,8 @@
     --color-bubble: #ECECEC;
     --color-ink: #000000;
     --color-surface: #FFFFFF;
+    --color-chip-hover: #C8C8C8;
+    --color-send-icon-hover: #333333;
 }
 
 *,
@@ -25,7 +27,7 @@ body {
 
 body.chatting {
     flex-direction: column;
-    justify-content: flex-start;/* 主軸（縦）の先頭 = 上から積む */
+    justify-content: flex-start; /* 主軸（縦）の先頭 = 上から積む */
     height: 100dvh;
     padding: 120px 0 40px;
     gap: 24px;
@@ -70,7 +72,7 @@ body.chatting #chat {
 }
 
 .message.bot + .message.user {
-    margin-top: 40px;  /* gap の 24px と足して、64px になる */
+    margin-top: 40px; /* gap の 24px と足して、64px になる */
 }
 
 button {
@@ -158,6 +160,12 @@ button {
     cursor: not-allowed;
 }
 
+#send-button:focus-visible,
+.chip:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
 /* 画面の幅が 600px 以下のときだけ適用される */
 @media (max-width: 600px) {
     .logo {
@@ -219,5 +227,15 @@ button {
         width: 15px;
         height: 19px;
     }
+}
 
+@media (hover: hover) {
+    #send-button:hover:not(:disabled) {
+        background-color: var(--color-chip-hover);
+        color: var(--color-send-icon-hover);
+    }
+
+    .chip:hover:not(:disabled, .selected) {
+        background-color: var(--color-chip-hover);
+    }
 }
