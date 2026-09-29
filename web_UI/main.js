@@ -40,7 +40,7 @@ function addMessage(text, sender) {
     bubble.classList.add('message', sender);
     bubble.textContent = text;
     messages.append(bubble);
-    bubble.scrollIntoView({ block: 'end' });
+    bubble.scrollIntoView({ block: 'end', behavior: 'smooth' });
 }
 
 // --- チップのクリック：選択の切り替えだけ ---
