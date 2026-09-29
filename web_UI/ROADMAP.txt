@@ -11,7 +11,7 @@ ReTube 今後の小さなサイクル一覧
     キーワード：transition, transform: scale(), :focus-visible
     完成の目安：押した瞬間に少し縮む。キーボード（Tab）で選ぶと枠が出る
 
-[ ] 1-2 メッセージの表示アニメーション
+[x] 1-2 メッセージの表示アニメーション
     内容：新しいメッセージが下からふわっと現れる
     キーワード：@keyframes, animation, opacity, translateY
     完成の目安：↑を押すたびに、吹き出しと返事が滑らかに表示される
@@ -116,6 +116,114 @@ ReTube 今後の小さなサイクル一覧
 [ ] 5-2 API に認証を付ける
     内容：URL を知っていれば誰でも呼べる状態を解消する
     完成の目安：認証なしのリクエストは拒否される
+
+
+■ フェーズ③' Three.js（Vite 導入後）
+--------------------------------------------------------
+[ ] 6-1 最初の一歩（manual: Creating a scene）
+    内容：別フォルダ（例：web_three/）で、回る立方体を表示する
+    キーワード：Scene, PerspectiveCamera, WebGLRenderer, Mesh, requestAnimationFrame
+    完成の目安：npm run dev で立方体が回り続ける
+
+[ ] 6-2 画面サイズへの対応（manual: Responsive Design）
+    内容：ウィンドウ幅を変えても歪まない・ぼやけないようにする
+    キーワード：camera.aspect, updateProjectionMatrix, setPixelRatio
+    完成の目安：スマホ幅にしても立方体が潰れない
+
+[ ] 6-3 形と部品の階層（manual: Primitives / Scenegraph）
+    内容：球や板を組み合わせ、親を回すと子も一緒に動く構成を作る
+    キーワード：Geometry, Group, position / rotation, add()
+    完成の目安：親の Group を回すと、子の Mesh がまとめて動く
+
+[ ] 6-4 質感と光（manual: Materials / Lights）
+    内容：MeshBasic と MeshStandard の違いを試し、光を当てる
+    キーワード：MeshStandardMaterial, AmbientLight, DirectionalLight
+    完成の目安：光の向きを変えると陰影が変わる
+
+[ ] 6-5 画像を貼る（manual: Textures）
+    内容：板にサムネイル風の画像を貼る
+    キーワード：TextureLoader, map, colorSpace
+    完成の目安：画像の色がくすまずに表示される
+
+[ ] 6-6 マウスで触る（examples で OrbitControls / Raycaster を調べる）
+    内容：ドラッグで視点を回し、クリックした物体を判定する
+    キーワード：OrbitControls, Raycaster, pointermove
+    完成の目安：クリックした板だけ色が変わる
+
+[ ] 6-7 ReTube に組み込む
+    内容：チャットの背景に、動画カードがゆっくり漂う 3D 空間を置く
+    キーワード：canvas を position: fixed で背面に, pointer-events
+    完成の目安：背景が動いていても、チャットの操作を邪魔しない
+
+[ ] 6-8 片付けと配慮
+    内容：reduced-motion 時は止める。不要になった物はメモリを解放する
+    キーワード：prefers-reduced-motion（1-6 の応用）, dispose()
+    完成の目安：設定 ON で静止する。DevTools の Performance でメモリが増え続けない
+
+
+■ フェーズ⑤ WebXR（VR）  前提：6-1〜6-6 完了
+--------------------------------------------------------
+[ ] 7-1 PCで VR を疑似体験する環境を作る
+    内容：ブラウザ拡張「Immersive Web Emulator」を入れ、examples の VR デモを動かす
+    キーワード：WebXR, エミュレーター
+    完成の目安：PCのブラウザ上で、仮想ゴーグルとコントローラーを動かせる
+
+[ ] 7-2 自分のシーンを VR 対応にする
+    内容：6-1 の立方体に「ENTER VR」ボタンを付ける
+    キーワード：renderer.xr.enabled = true, VRButton, setAnimationLoop
+    完成の目安：エミュレーターで VR に入り、立方体の周りを見回せる
+    注意：requestAnimationFrame は VR 中に使えないので setAnimationLoop に置き換える
+
+[ ] 7-2.5 WebXR の仕組みをざっと知る（MDN の WebXR Device API を読む）
+    内容：three.js の裏で何が起きているかを、用語レベルで把握する
+    キーワード：XRSession, 参照空間（local / local-floor）, XRInputSource, HTTPS 必須の理由
+    完成の目安：VRButton を押してから描画が始まるまでの流れを、自分の言葉で説明できる
+
+[ ] 7-3 実機で開く
+    内容：開発サーバーをゴーグルのブラウザから開く
+    キーワード：HTTPS（localhost 以外は必須）, @vitejs/plugin-basic-ssl, npm run dev -- --host
+    完成の目安：ゴーグルで URL を開き、VR に入れる
+
+[ ] 7-4 大きさと高さの感覚
+    内容：床を置き、物を「1 = 1メートル」で配置する
+    キーワード：ワールド単位 = メートル, local-floor
+    完成の目安：机くらいの高さの箱が、実際に机くらいに見える
+
+[ ] 7-5 コントローラーを表示する
+    内容：手元にコントローラーのモデルと、前方へのレーザー線を出す
+    キーワード：renderer.xr.getController, getControllerGrip, XRControllerModelFactory
+    完成の目安：手を動かすとコントローラーとレーザーが追従する
+
+[ ] 7-6 指さして選ぶ
+    内容：レーザーが当たった物を光らせ、トリガーで選択する
+    キーワード：Raycaster（6-6 の応用）, selectstart / selectend イベント
+    完成の目安：トリガーを引いた物だけ色が変わる
+
+[ ] 7-7 つかんで動かす
+    内容：スクイーズボタンで物をつかみ、手と一緒に動かす
+    キーワード：squeezestart, attach()（親の付け替え）
+    完成の目安：つかんだ箱を別の場所に置ける
+
+[ ] 7-8 移動（テレポート）
+    内容：床を指してトリガーでその場所へ移動する
+    キーワード：テレポート, 参照空間のオフセット（examples の teleport デモ参照）
+    完成の目安：酔わずに部屋の中を移動できる
+
+[ ] 7-9 軽さを保つ
+    内容：常に滑らかに動く状態を維持する
+    キーワード：72〜90fps, renderer.info, 描画回数（draw calls）を減らす
+    完成の目安：実機で動かしてもカクつかない
+    メモ：VR ではカクつき＝酔いの原因。PCより厳しく見る
+
+[ ] 7-10 ReTube を VR にする（ゴール例）
+    内容：周囲に動画カードが並ぶ空間で、指さして選ぶと提案が返ってくる
+    キーワード：6-7 と 7-6 の組み合わせ, 文字は CanvasTexture で板に描く
+    完成の目安：ゴーグルを付けたまま、提案→評価の往復ができる
+
+[ ] 7-11 （発展）ハンドトラッキング
+    内容：コントローラーなしで、手の指で選ぶ
+    キーワード：getHand, XRHandModelFactory, ピンチ判定
+    完成の目安：親指と人差し指をつまむと選択できる
 
 
 ■ メモ

@@ -62,6 +62,7 @@ body.chatting #chat {
 
 .message {
     font-size: 32px;
+    animation: fade-in-up 0.3s ease-out;
 }
 
 .message.user {
@@ -237,5 +238,15 @@ button {
 
     .chip:hover:not(:disabled, .selected) {
         background-color: var(--color-chip-hover);
+    }
+}
+
+@keyframes fade-in-up {
+    from {
+        transform: translateY(16px);
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }
