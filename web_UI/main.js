@@ -17,6 +17,7 @@ let currentSuggestionId = null;  // 表示中の提案。feedbackはこのIDに�
 const chipList = document.querySelector('#chip-list');
 const sendButton = document.querySelector('#send-button');
 const messages = document.querySelector('#messages');
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 // --- チップを作り直す ---
 function renderChips(newMode) {
@@ -46,7 +47,10 @@ function addMessage(text, sender) {
         messages.append(bubble);
     }
 
-    bubble.scrollIntoView({ block: 'end', behavior: 'smooth' });
+    bubble.scrollIntoView({
+        block: 'end',
+        behavior: reducedMotion.matches ? 'auto' : 'smooth',
+    });
     return bubble;
 }
 

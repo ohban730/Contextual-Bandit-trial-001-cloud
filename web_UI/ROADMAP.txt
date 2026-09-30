@@ -31,7 +31,7 @@ ReTube 今後の小さなサイクル一覧
     キーワード：View Transitions API（document.startViewTransition）
     完成の目安：最初の↑で、カードがパッと切り替わらずに移動する
 
-[ ] 1-6 動きが苦手な人への配慮
+[x] 1-6 動きが苦手な人への配慮
     内容：OSの「視差効果を減らす」設定時はアニメーションを止める
     キーワード：@media (prefers-reduced-motion: reduce)
     完成の目安：DevTools の Rendering で設定をONにすると、動きが止まる

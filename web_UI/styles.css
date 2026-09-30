@@ -279,3 +279,21 @@ button {
         opacity: 1;
     }
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .message,
+    .message.thinking {
+        animation: none;
+    }
+
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        animation: none;
+    }
+
+    .chip:active:not(:disabled),
+    #send-button:active:not(:disabled) {
+        transform: none;
+    }
+}
