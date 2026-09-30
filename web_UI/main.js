@@ -36,11 +36,18 @@ function renderChips(newMode) {
 // --- メッセージを１つ追加 ---
 function addMessage(text, sender) {
     const bubble = document.createElement('div');
+    const preMessage = messages.querySelector('.thinking');
 
     bubble.classList.add('message', sender);
     bubble.textContent = text;
-    messages.append(bubble);
+    if (preMessage && sender === 'bot') {
+        preMessage.replaceWith(bubble);
+    } else {
+        messages.append(bubble);
+    }
+
     bubble.scrollIntoView({ block: 'end', behavior: 'smooth' });
+    return bubble;
 }
 
 // --- チップのクリック：選択の切り替えだけ ---
@@ -63,6 +70,9 @@ sendButton.addEventListener('click', async () => {
 
     document.body.classList.add('chatting');
     addMessage(text, 'user');
+
+    const thinking = addMessage('...', 'bot');
+    thinking.classList.add('thinking');
 
     setBusy(true);
     try {

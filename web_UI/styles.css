@@ -76,6 +76,10 @@ body.chatting #chat {
     margin-top: 40px; /* gap の 24px と足して、64px になる */
 }
 
+.message.thinking {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
 button {
     font-family: inherit;
 }
@@ -247,6 +251,18 @@ button {
         opacity: 0;
     }
     to {
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
         opacity: 1;
     }
 }
