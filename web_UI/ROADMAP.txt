@@ -36,7 +36,7 @@ ReTube 今後の小さなサイクル一覧
     キーワード：@media (prefers-reduced-motion: reduce)
     完成の目安：DevTools の Rendering で設定をONにすると、動きが止まる
 
-[ ] 1-7 色を整える
+[x] 1-7 色を整える
     内容：真っ黒(#000)をやめて柔らかい黒・濃いグレーにする。YouTube/Gemini の配色を F12 で調べて参考にする
     キーワード：CSS変数（:root）
     完成の目安：全体の印象が柔らかくなる。色の値は :root だけで管理されている

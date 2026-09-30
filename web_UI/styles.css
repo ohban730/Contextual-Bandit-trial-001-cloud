@@ -3,10 +3,11 @@
     --color-glow: #FFBBBB;
     --color-chip: #D6D6D6;
     --color-bubble: #ECECEC;
-    --color-ink: #000000;
+    --color-ink: #1F1F1F;
     --color-surface: #FFFFFF;
     --color-chip-hover: #C8C8C8;
     --color-send-icon-hover: #333333;
+    --color-shadow: rgba(0, 0, 0, 0.25);
 }
 
 *,
@@ -23,6 +24,8 @@ body {
     align-items: center;
     font-family: "Noto Sans", "Noto Sans JP", sans-serif;
     overflow-x: clip;
+    color: var(--color-ink);
+    background-color: var(--color-surface);
 }
 
 body.chatting {
@@ -82,6 +85,7 @@ body.chatting #chat {
 
 button {
     font-family: inherit;
+    color: inherit;
 }
 
 .logo {
@@ -123,7 +127,7 @@ button {
     inset: 0;
     z-index: -1;
     background-color: var(--color-surface);
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 4px var(--color-shadow);
     border-radius: inherit;
 }
 
