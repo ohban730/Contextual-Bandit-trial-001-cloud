@@ -26,7 +26,7 @@ ReTube 今後の小さなサイクル一覧
     キーワード：@keyframes, 要素の置き換え（remove / replaceWith）
     完成の目安：Slow 4G で試すと、待っている間「…」が動いている
 
-[ ] 1-5 初期画面→会話画面の切り替えアニメーション
+[x] 1-5 初期画面→会話画面の切り替えアニメーション
     内容：カードが中央から下へ滑らかに移動する
     キーワード：View Transitions API（document.startViewTransition）
     完成の目安：最初の↑で、カードがパッと切り替わらずに移動する

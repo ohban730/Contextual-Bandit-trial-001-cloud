@@ -67,14 +67,22 @@ sendButton.addEventListener('click', async () => {
     const selectedChip = chipList.querySelector('.chip.selected');
     const text = selectedChip.textContent;
     const value = selectedChip.dataset.value;
+    const chatting = document.body.classList.contains('chatting');
 
-    document.body.classList.add('chatting');
+    setBusy(true);
+
+    if (!chatting) {
+        const transition = document.startViewTransition(() => {
+            document.body.classList.add('chatting');
+        });
+        await transition.updateCallbackDone;
+    }
+
     addMessage(text, 'user');
 
     const thinking = addMessage('...', 'bot');
     thinking.classList.add('thinking');
 
-    setBusy(true);
     try {
         if (mode === 'category') {
             await requestSuggestion(value);

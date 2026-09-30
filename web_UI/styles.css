@@ -103,19 +103,32 @@ button {
     max-width: calc(100% - 32px);
     /* 画面が狭いときは、画面幅から左右16pxずつ引いた幅まで縮む */
     padding: 44px 19px;
-    background-color: var(--color-surface);
     border-radius: 50px;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     gap: 16px;
     position: relative;
+    view-transition-name: composer;
 }
 
 #composer::before {
     content: "";
     position: absolute;
     inset: -370px -224px;
-    z-index: -1;
+    z-index: -2;
     background: radial-gradient(closest-side, var(--color-glow), transparent);
+}
+
+#composer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--color-surface);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: inherit;
+}
+
+::view-transition-group(composer) {
+    animation-duration: 0.5s;
 }
 
 #chip-list {
