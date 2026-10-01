@@ -1,6 +1,8 @@
+import { CONFIG } from './config.js';
+
 const suggestUrl = CONFIG.SUGGEST_URL;
 
-async function fetchSuggestion(category) {
+export async function fetchSuggestion(category) {
     const requestUrl = new URL(suggestUrl);
     if (category) {
         requestUrl.searchParams.set('category', category);

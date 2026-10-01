@@ -1,6 +1,8 @@
+import { CONFIG } from './config.js';
+
 const feedbackUrl = CONFIG.FEEDBACK_URL;
 
-async function sendFeedback(label, suggestionId) {
+export async function sendFeedback(label, suggestionId) {
 
     if (!suggestionId) {
         throw new Error('評価する提案がありません');

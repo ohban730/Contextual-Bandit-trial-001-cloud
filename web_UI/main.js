@@ -1,3 +1,6 @@
+import { fetchSuggestion } from './suggest.js';
+import { sendFeedback } from './feedback.js';
+
 // --- 設定と状態 ---
 const CHIP_SETS = {
     category: [

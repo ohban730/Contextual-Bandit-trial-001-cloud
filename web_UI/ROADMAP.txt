@@ -41,7 +41,7 @@ ReTube 今後の小さなサイクル一覧
     キーワード：CSS変数（:root）
     完成の目安：全体の印象が柔らかくなる。色の値は :root だけで管理されている
 
-[ ] 1-8 ES モジュール化（alpha-synapse への橋渡し）
+[x] 1-8 ES モジュール化（alpha-synapse への橋渡し）
     内容：suggest.js / feedback.js / main.js を import / export で繋ぐ
     キーワード：<script type="module">, export, import
     完成の目安：グローバル変数に頼らずに、今と同じ動作をする
