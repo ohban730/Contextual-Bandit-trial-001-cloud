@@ -46,7 +46,7 @@ ReTube 今後の小さなサイクル一覧
     キーワード：<script type="module">, export, import
     完成の目安：グローバル変数に頼らずに、今と同じ動作をする
 
-[ ] 1-9 Vite の導入（Tailwind / React / Three.js の土台）
+[x] 1-9 Vite の導入（Tailwind / React / Three.js の土台）
     内容：web_UI を Vite のプロジェクトに移す（別フォルダでもOK）
     キーワード：Node.js, npm, npm run dev / npm run build, import.meta.env
     完成の目安：
